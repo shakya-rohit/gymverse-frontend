@@ -14,7 +14,8 @@ import { MemberProfileDialogComponent } from '../member-profile-dialog/member-pr
   styleUrls: ['./members.component.scss']
 })
 export class MembersComponent implements AfterViewInit {
-  displayedColumns: string[] = ['name', 'age', 'membership', 'status', 'actions'];
+  displayedColumns = ['name', 'age', 'membership', 'status', 'startDate', 'endDate', 'actions'];
+
   dataSource = new MatTableDataSource<any>([]);
   memberForm: FormGroup;
   editingIndex: number | null = null;
@@ -32,9 +33,18 @@ export class MembersComponent implements AfterViewInit {
 
     // Initial dummy data
     this.dataSource.data = [
-      { name: 'John Doe', age: 28, membership: 'Gold', status: 'Active', photo: 'https://i.pravatar.cc/100?img=3' },
-      { name: 'Jane Smith', age: 32, membership: 'Silver', status: 'Expired' },
-      { name: 'Bob Johnson', age: 45, membership: 'Platinum', status: 'Active' }
+      {
+        name: 'John Doe', age: 28, membership: 'Gold', status: 'Active', photo: 'https://i.pravatar.cc/100?img=3', startDate: '2024-08-01',
+        endDate: '2024-08-31'
+      },
+      {
+        name: 'Jane Smith', age: 32, membership: 'Silver', status: 'Expired', startDate: '2024-04-01',
+        endDate: '2024-06-30'
+      },
+      {
+        name: 'Bob Johnson', age: 45, membership: 'Platinum', status: 'Active', startDate: '2024-04-01',
+        endDate: '2025-07-27'
+      }
     ];
   }
 
@@ -94,5 +104,13 @@ export class MembersComponent implements AfterViewInit {
       width: '400px'
     });
   }
+
+  isExpiringSoon(endDateStr: string): boolean {
+    const endDate = new Date(endDateStr);
+    const today = new Date();
+    const diff = (endDate.getTime() - today.getTime()) / (1000 * 3600 * 24);
+    return diff <= 7 && diff >= 0;
+  }
+
 
 }
