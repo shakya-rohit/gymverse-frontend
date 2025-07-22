@@ -4,6 +4,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 
+import { MatDialog } from '@angular/material/dialog';
+import { MemberProfileDialogComponent } from '../member-profile-dialog/member-profile-dialog.component';
+
+
 @Component({
   selector: 'app-members',
   templateUrl: './members.component.html',
@@ -18,7 +22,7 @@ export class MembersComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private dialog: MatDialog) {
     this.memberForm = this.fb.group({
       name: ['', Validators.required],
       age: ['', [Validators.required, Validators.min(0)]],
@@ -28,7 +32,7 @@ export class MembersComponent implements AfterViewInit {
 
     // Initial dummy data
     this.dataSource.data = [
-      { name: 'John Doe', age: 28, membership: 'Gold', status: 'Active' },
+      { name: 'John Doe', age: 28, membership: 'Gold', status: 'Active', photo: 'https://i.pravatar.cc/100?img=3' },
       { name: 'Jane Smith', age: 32, membership: 'Silver', status: 'Expired' },
       { name: 'Bob Johnson', age: 45, membership: 'Platinum', status: 'Active' }
     ];
@@ -83,4 +87,12 @@ export class MembersComponent implements AfterViewInit {
     this.editingIndex = null;
     this.memberForm.reset();
   }
+
+  viewMember(member: any) {
+    this.dialog.open(MemberProfileDialogComponent, {
+      data: member,
+      width: '400px'
+    });
+  }
+
 }

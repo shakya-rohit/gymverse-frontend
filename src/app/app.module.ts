@@ -32,6 +32,8 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 
 import { MatSelectModule } from '@angular/material/select';
+import { MemberProfileDialogComponent } from './components/member-profile-dialog/member-profile-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
@@ -43,7 +45,8 @@ import { MatSelectModule } from '@angular/material/select';
     TrainersComponent,
     MembershipPlansComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    MemberProfileDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -68,7 +71,9 @@ import { MatSelectModule } from '@angular/material/select';
     MatSortModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDialogModule,
+    MatCardModule 
   ],
   providers: [],
   bootstrap: [AppComponent]
