@@ -1,0 +1,25 @@
+<h2>Dashboard</h2>
+
+<div class="card-grid">
+  <mat-card class="dashboard-card">
+    <h3>Total Members</h3>
+    <p>120</p>
+  </mat-card>
+  <mat-card class="dashboard-card">
+    <h3>Active Plans</h3>
+    <p>75</p>
+  </mat-card>
+  <mat-card class="dashboard-card">
+    <h3>Revenue</h3>
+    <p>₹ 54,000</p>
+  </mat-card>
+</div>
+
+<div style="margin-top: 40px;">
+  <canvas
+    baseChart
+    [data]="barChartData"
+    [options]="barChartOptions"
+    [type]="barChartType">
+  </canvas>
+</div>
