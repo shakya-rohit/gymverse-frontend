@@ -1,0 +1,45 @@
+/* Container spacing */
+h2 {
+  margin-bottom: 16px;
+}
+
+/* Search field */
+mat-form-field {
+  margin-bottom: 16px;
+  width: 300px;
+  display: block;
+}
+
+/* Form styling */
+.member-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+
+  mat-form-field {
+    flex: 1 1 200px;
+    min-width: 200px;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 8px;
+    align-items: flex-end; /* Align buttons with bottom of inputs */
+  }
+
+  .form-actions button {
+    height: 56px; // Same as mat-form-field input height
+  }
+}
+
+/* Action buttons in table */
+mat-icon-button {
+  margin-right: 8px;
+}
+
+/* Table spacing */
+table {
+  width: 100%;
+  margin-bottom: 24px;
+}
