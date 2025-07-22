@@ -15,8 +15,27 @@
   </mat-card>
 </div>
 
+<div class="filter-bar">
+  <mat-form-field appearance="outline">
+    <mat-label>View</mat-label>
+    <mat-select [(value)]="viewType" (selectionChange)="updateChartData()">
+      <mat-option value="monthly">Monthly</mat-option>
+      <mat-option value="quarterly">Quarterly</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Year</mat-label>
+    <mat-select [(value)]="selectedYear" (selectionChange)="updateChartData()">
+      <mat-option *ngFor="let year of availableYears" [value]="year">{{ year }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+
+
 <div class="chart-container">
-  <h3>Monthly Activity</h3>
+  <h3>{{ viewType === 'monthly' ? 'Monthly Activity' : 'Quarterly Activity' }}</h3>
   <canvas
     baseChart
     [data]="barChartData"

@@ -40,3 +40,19 @@
 .chart-container canvas {
   max-height: 300px; // limits chart height
 }
+
+.view-toggle {
+  margin: 20px 0;
+  width: 200px;
+}
+
+.filter-bar {
+  display: flex;
+  gap: 1rem;
+  margin: 20px 0;
+  flex-wrap: wrap;
+
+  mat-form-field {
+    width: 200px;
+  }
+}
