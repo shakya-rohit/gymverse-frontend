@@ -2,3 +2,25 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.confirm-dialog-top .mat-dialog-container {
+  top: 80px !important;
+  position: absolute !important;
+}
+
+.content-wrapper {
+  position: relative;
+}
+
+.overlay-spinner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.6); /* semi-transparent white */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

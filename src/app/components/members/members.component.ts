@@ -6,6 +6,11 @@ import { MatSort } from '@angular/material/sort';
 
 import { MatDialog } from '@angular/material/dialog';
 import { MemberProfileDialogComponent } from '../member-profile-dialog/member-profile-dialog.component';
+import { MemberService } from 'src/app/services/member.service';
+import { MembershipPlanService } from 'src/app/services/membership-plan.service';
+import { ConfirmDialogComponent } from 'src/app/confirm-dialog/confirm-dialog.component';
+import { delay } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -23,12 +28,17 @@ export class MembersComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private fb: FormBuilder, private dialog: MatDialog) {
+  plans: any[] = [];
+  editingMemberId: string | null = null;
+  isLoading = false;
+
+  constructor(private fb: FormBuilder, private dialog: MatDialog, private memberService: MemberService, private membershipPlanService: MembershipPlanService, private snackBar: MatSnackBar) {
     this.memberForm = this.fb.group({
       name: ['', Validators.required],
       age: ['', [Validators.required, Validators.min(0)]],
       membership: ['', Validators.required],
       status: ['', Validators.required],
+      membershipPlanId: ['', Validators.required]
     });
 
     // Initial dummy data
@@ -48,9 +58,18 @@ export class MembersComponent implements AfterViewInit {
     ];
   }
 
+  ngOnInit(): void {
+    this.loadMembers();
+  }
+
+
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+
+    this.membershipPlanService.getAllPlans().subscribe((data) => {
+      this.plans = data;
+    });
   }
 
   applyFilter(event: Event) {
@@ -58,40 +77,157 @@ export class MembersComponent implements AfterViewInit {
     this.dataSource.filter = filterValue;
   }
 
+  // onSubmit() {
+  //   if (this.memberForm.invalid) return;
+
+  //   const newMember = this.memberForm.value;
+
+  //   if (this.editingIndex === null) {
+  //     // Add member
+  //     this.dataSource.data = [...this.dataSource.data, newMember];
+  //   } else {
+  //     // Update existing member
+  //     const updated = [...this.dataSource.data];
+  //     updated[this.editingIndex] = newMember;
+  //     this.dataSource.data = updated;
+  //     this.editingIndex = null;
+  //   }
+
+  //   this.memberForm.reset();
+  // }
+
+  // onSubmit() {
+  //   if (this.memberForm.invalid) return;
+
+  //   const memberData = this.memberForm.value;
+
+  //   if (this.editingIndex === null) {
+  //     this.memberService.create(memberData).subscribe(newMember => {
+  //       this.dataSource.data = [...this.dataSource.data, newMember];
+  //       this.memberForm.reset();
+  //     });
+  //   } else {
+  //     const memberId = this.dataSource.data[this.editingIndex].memberId;
+  //     this.memberService.update(memberId, memberData).subscribe(updated => {
+  //       const updatedData = [...this.dataSource.data];
+  //       updatedData[this.editingIndex!] = updated;
+  //       this.dataSource.data = updatedData;
+  //       this.memberForm.reset();
+  //       this.editingIndex = null;
+  //     });
+  //   }
+  // }
+
   onSubmit() {
     if (this.memberForm.invalid) return;
 
-    const newMember = this.memberForm.value;
+    const formValue = this.memberForm.value;
 
-    if (this.editingIndex === null) {
-      // Add member
-      this.dataSource.data = [...this.dataSource.data, newMember];
+    if (this.editingMemberId) {
+      // Edit mode
+      this.memberService.update(this.editingMemberId, formValue).subscribe({
+        next: (updatedMember) => {
+          // Refresh table or replace updated member in dataSource
+          const index = this.dataSource.data.findIndex(m => m.memberId === this.editingMemberId);
+          if (index !== -1) {
+            this.dataSource.data[index] = updatedMember;
+            this.dataSource._updateChangeSubscription(); // refresh table
+          }
+          this.cancelEdit();
+          this.showSnackBar('Member updated successfully!');
+        },
+        error: (err) => console.error('Update failed', err)
+      });
     } else {
-      // Update existing member
-      const updated = [...this.dataSource.data];
-      updated[this.editingIndex] = newMember;
-      this.dataSource.data = updated;
-      this.editingIndex = null;
-    }
+      // Add mode
+      this.memberService.create(formValue).subscribe({
+        next: (newMember) => {
+          this.dataSource.data = [...this.dataSource.data, newMember];
+          this.memberForm.reset();
+          this.showSnackBar('Member added successfully!');
 
-    this.memberForm.reset();
+        },
+        error: (err) => console.error('Create failed', err)
+      });
+    }
   }
 
+
+
+  // editMember(member: any) {
+  //   this.editingIndex = this.dataSource.data.indexOf(member);
+  //   this.memberForm.setValue({
+  //     name: member.name,
+  //     age: member.age,
+  //     membership: member.membership,
+  //     status: member.status,
+  //   });
+  // }
+
   editMember(member: any) {
+    this.editingMemberId = member.memberId; // capture actual ID
     this.editingIndex = this.dataSource.data.indexOf(member);
     this.memberForm.setValue({
       name: member.name,
       age: member.age,
       membership: member.membership,
+      membershipPlanId: member.membershipPlanId,  // must be set
       status: member.status,
     });
   }
 
+  // deleteMember(member: any) {
+  //   const updated = [...this.dataSource.data].filter(m => m !== member);
+  //   this.dataSource.data = updated;
+  //   this.cancelEdit();
+  // }
+
+  // deleteMember(member: any) {
+  //   this.memberService.delete(member.memberId).subscribe(() => {
+  //     this.dataSource.data = this.dataSource.data.filter(m => m.memberId !== member.memberId);
+  //     this.cancelEdit();
+  //   });
+  // }
+
+  // deleteMember(member: any) {
+  //   this.memberService.delete(member.memberId).subscribe({
+  //     next: () => {
+  //       this.dataSource.data = this.dataSource.data.filter(m => m.memberId !== member.memberId);
+  //       this.cancelEdit();
+  //     },
+  //     error: (err) => {
+  //       console.error('Error deleting member:', err);
+  //     }
+  //   });
+  // }
+
   deleteMember(member: any) {
-    const updated = [...this.dataSource.data].filter(m => m !== member);
-    this.dataSource.data = updated;
-    this.cancelEdit();
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '350px',
+      data: {
+        title: 'Confirm Deletion',
+        message: `Are you sure you want to delete member "${member.name}"?`
+      },
+      panelClass: 'confirm-dialog-top'
+    });
+
+    dialogRef.afterClosed().subscribe(confirmed => {
+      if (confirmed) {
+        this.memberService.delete(member.memberId).subscribe({
+          next: () => {
+            this.dataSource.data = this.dataSource.data.filter(m => m.memberId !== member.memberId);
+            this.cancelEdit();
+            this.showSnackBar('Member deleted successfully!');
+          },
+          error: (err) => {
+            console.error('Error deleting member:', err);
+            this.showSnackBar('Failed to delete member.');
+          }
+        });
+      }
+    });
   }
+
 
   cancelEdit() {
     this.editingIndex = null;
@@ -110,6 +246,44 @@ export class MembersComponent implements AfterViewInit {
     const today = new Date();
     const diff = (endDate.getTime() - today.getTime()) / (1000 * 3600 * 24);
     return diff <= 7 && diff >= 0;
+  }
+
+  // loadMembers() {
+  //   this.isLoading = true;
+  //   this.memberService.getAll().subscribe({
+  //     next: (members) => {
+  //       this.dataSource.data = members;
+  //       this.isLoading = false;
+  //     },
+  //     error: (err) => {
+  //       console.error('Error loading members:', err);
+  //       this.isLoading = false;
+  //     }
+  //   });
+  // }
+
+  loadMembers() {
+    this.isLoading = true;
+    this.memberService.getAll()
+      .pipe(delay(500)) // simulate 500ms delay
+      .subscribe({
+        next: (members) => {
+          this.dataSource.data = members;
+          this.isLoading = false;
+        },
+        error: (err) => {
+          console.error('Error loading members:', err);
+          this.isLoading = false;
+        }
+      });
+  }
+
+  showSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 3000,
+      horizontalPosition: 'right',
+      verticalPosition: 'bottom',
+    });
   }
 
 

@@ -18,6 +18,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
@@ -34,6 +37,8 @@ import { FooterComponent } from './components/footer/footer.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MemberProfileDialogComponent } from './components/member-profile-dialog/member-profile-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { HttpClientModule } from '@angular/common/http';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 
 
 @NgModule({
@@ -46,7 +51,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MembershipPlansComponent,
     HeaderComponent,
     FooterComponent,
-    MemberProfileDialogComponent
+    MemberProfileDialogComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -73,7 +79,11 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatInputModule,
     MatSelectModule,
     MatDialogModule,
-    MatCardModule 
+    MatCardModule,
+    HttpClientModule,
+    MatDialogModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

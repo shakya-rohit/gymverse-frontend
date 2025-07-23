@@ -48,3 +48,15 @@ table {
   color: red;
   font-weight: bold;
 }
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100px;
+}
+
+.blur {
+  opacity: 0.5;
+  pointer-events: none;
+}
