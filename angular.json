@@ -33,7 +33,15 @@
               "@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "canvg",
+              "jspdf",
+              "html2canvas",
+              "core-js",
+              "raf",
+              "rgbcolor"
+            ]
           },
           "configurations": {
             "production": {
