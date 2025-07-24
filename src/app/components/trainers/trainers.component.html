@@ -1,22 +1,98 @@
-<h2>Trainers</h2>
+<div class="content-wrapper">
+  <!-- Overlay Spinner -->
+  <div class="overlay-spinner" *ngIf="isLoading">
+    <mat-spinner diameter="40" strokeWidth="4" color="primary"></mat-spinner>
+  </div>
 
-<table mat-table [dataSource]="trainers" class="mat-elevation-z8">
+  <!-- Title + Refresh -->
+  <div style="display: flex; align-items: center; gap: 8px;">
+    <h2 style="margin: 0;">Trainers</h2>
+    <button mat-icon-button (click)="loadTrainers()" [disabled]="isLoading">
+      <mat-icon>refresh</mat-icon>
+    </button>
+  </div>
 
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef>Name</th>
-    <td mat-cell *matCellDef="let m">{{ m.name }}</td>
-  </ng-container>
+  <!-- Trainer Form -->
+  <form [formGroup]="trainerForm" (ngSubmit)="onSubmit()" class="trainer-form">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name">
+    </mat-form-field>
 
-  <ng-container matColumnDef="specialization">
-    <th mat-header-cell *matHeaderCellDef>Specialization</th>
-    <td mat-cell *matCellDef="let m">{{ m.specialization }}</td>
-  </ng-container>
+    <mat-form-field appearance="outline">
+      <mat-label>Specialty</mat-label>
+      <input matInput formControlName="specialty">
+    </mat-form-field>
 
-  <ng-container matColumnDef="experience">
-    <th mat-header-cell *matHeaderCellDef>Experience</th>
-    <td mat-cell *matCellDef="let m">{{ m.experience }}</td>
-  </ng-container>
+    <mat-form-field appearance="outline">
+      <mat-label>Phone</mat-label>
+      <input matInput formControlName="phone">
+    </mat-form-field>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email">
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit">
+      {{ editingTrainerId ? 'Update Trainer' : 'Add Trainer' }}
+    </button>
+    <button mat-button type="button" (click)="cancelEdit()" *ngIf="editingTrainerId">Cancel</button>
+  </form>
+
+  <!-- Search + Export -->
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+    <mat-form-field appearance="outline">
+      <mat-label>Search</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Search trainers">
+    </mat-form-field>
+
+    <div style="display: flex; gap: 12px;">
+      <button mat-raised-button color="primary" (click)="exportToCSV()">Export CSV</button>
+      <button mat-raised-button color="accent" (click)="exportToPDF()">Export PDF</button>
+    </div>
+  </div>
+
+  <!-- Trainers Table -->
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+      <td mat-cell *matCellDef="let t">{{ t.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="specialty">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Specialty</th>
+      <td mat-cell *matCellDef="let t">{{ t.specialty }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="phone">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Phone</th>
+      <td mat-cell *matCellDef="let t">{{ t.phone }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+      <td mat-cell *matCellDef="let t">{{ t.email }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let t">
+        <button mat-icon-button color="accent" (click)="viewTrainer(t)">
+          <mat-icon>visibility</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" (click)="editTrainer(t)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="deleteTrainer(t)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>

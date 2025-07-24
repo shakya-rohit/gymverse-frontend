@@ -39,6 +39,7 @@ import { MemberProfileDialogComponent } from './components/member-profile-dialog
 import { MatDialogModule } from '@angular/material/dialog';
 import { HttpClientModule } from '@angular/common/http';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import { TrainerProfileDialogComponent } from './components/trainer-profile-dialog/trainer-profile-dialog.component';
 
 
 @NgModule({
@@ -52,7 +53,8 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
     HeaderComponent,
     FooterComponent,
     MemberProfileDialogComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    TrainerProfileDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -83,7 +85,8 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
     HttpClientModule,
     MatDialogModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

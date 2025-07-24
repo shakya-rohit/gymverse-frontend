@@ -12,6 +12,9 @@ import { ConfirmDialogComponent } from 'src/app/confirm-dialog/confirm-dialog.co
 import { delay } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+
 
 @Component({
   selector: 'app-members',
@@ -265,7 +268,6 @@ export class MembersComponent implements AfterViewInit {
   loadMembers() {
     this.isLoading = true;
     this.memberService.getAll()
-      .pipe(delay(500)) // simulate 500ms delay
       .subscribe({
         next: (members) => {
           this.dataSource.data = members;
@@ -284,6 +286,64 @@ export class MembersComponent implements AfterViewInit {
       horizontalPosition: 'right',
       verticalPosition: 'bottom',
     });
+  }
+
+  exportToCSV(): void {
+    const rows = this.dataSource.data.map(m => ({
+      Name: m.name,
+      Age: m.age,
+      Membership: m.membership,
+      Status: m.status,
+      'Start Date': m.joiningDate,
+      'End Date': m.expiryDate
+    }));
+
+    const headers: (keyof typeof rows[0])[] = [
+      'Name',
+      'Age',
+      'Membership',
+      'Status',
+      'Start Date',
+      'End Date'
+    ];
+
+    const csvRows = [
+      headers.join(','), // header row
+      ...rows.map(row =>
+        headers.map(field => `"${row[field] ?? ''}"`).join(',')
+      )
+    ];
+
+    const blob = new Blob([csvRows.join('\n')], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.setAttribute('hidden', '');
+    a.setAttribute('href', url);
+    a.setAttribute('download', 'members.csv');
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+
+
+  exportToPDF(): void {
+    const doc = new jsPDF();
+    const rows = this.dataSource.data.map(m => [
+      m.name,
+      m.age,
+      m.membership,
+      m.status,
+      m.joiningDate,
+      m.expiryDate
+    ]);
+
+    autoTable(doc, {
+      head: [['Name', 'Age', 'Membership', 'Status', 'Start Date', 'End Date']],
+      body: rows
+    });
+
+    doc.save('members.pdf');
   }
 
 

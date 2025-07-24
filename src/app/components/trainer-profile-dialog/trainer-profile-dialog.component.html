@@ -1,0 +1,21 @@
+<h2 mat-dialog-title>Trainer Profile</h2>
+
+<mat-dialog-content class="profile-container">
+  <div class="avatar-section">
+    <mat-icon class="avatar" *ngIf="!trainer.photo">{{ getInitials(trainer.name) }}</mat-icon>
+    <img *ngIf="trainer.photo" [src]="trainer.photo" class="avatar" alt="Trainer Photo" />
+  </div>
+
+  <div class="info-section">
+    <mat-list dense>
+      <mat-list-item><strong>Name:</strong> {{ trainer.name }}</mat-list-item>
+      <mat-list-item><strong>Specialty:</strong> {{ trainer.specialty }}</mat-list-item>
+      <mat-list-item><strong>Phone:</strong> {{ trainer.phone }}</mat-list-item>
+      <mat-list-item><strong>Email:</strong> {{ trainer.email }}</mat-list-item>
+    </mat-list>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-flat-button color="primary" mat-dialog-close>Close</button>
+</mat-dialog-actions>

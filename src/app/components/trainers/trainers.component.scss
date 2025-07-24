@@ -1,4 +1,57 @@
-.trainer-card {
-  margin: 10px 0;
-  padding: 10px;
+/* Title spacing */
+h2 {
+  margin-bottom: 16px;
+}
+
+/* Search field styling */
+mat-form-field {
+  width: 300px;
+  display: block;
+}
+
+/* Form layout */
+.trainer-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+
+  mat-form-field {
+    flex: 1 1 200px;
+    min-width: 200px;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+  }
+
+  .form-actions button {
+    height: 56px;
+  }
+}
+
+/* Table styling */
+table {
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+/* Icon button spacing */
+mat-icon-button {
+  margin-right: 8px;
+}
+
+/* Spinner overlay */
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100px;
+}
+
+.blur {
+  opacity: 0.5;
+  pointer-events: none;
 }

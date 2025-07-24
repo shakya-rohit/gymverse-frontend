@@ -52,14 +52,33 @@
     <button mat-button type="button" (click)="cancelEdit()" *ngIf="editingIndex !== null">Cancel</button>
   </form>
 
-  <mat-form-field appearance="outline" style="width: 300px; margin-bottom: 16px;">
+  <!-- <mat-form-field appearance="outline" style="width: 300px; margin-bottom: 16px;">
     <mat-label>Search</mat-label>
     <input matInput (keyup)="applyFilter($event)" placeholder="Search members">
-  </mat-form-field>
+  </mat-form-field> -->
 
   <!-- <button mat-icon-button color="primary" (click)="loadMembers()" matTooltip="Reload">
     <mat-icon>refresh</mat-icon>
   </button> -->
+
+  <!-- <div style="display: flex; gap: 12px; margin-bottom: 16px;">
+    <button mat-raised-button color="primary" (click)="exportToCSV()">Export CSV</button>
+    <button mat-raised-button color="accent" (click)="exportToPDF()">Export PDF</button>
+  </div> -->
+
+  <div
+    style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+    <mat-form-field appearance="outline">
+      <mat-label>Search</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Search members">
+    </mat-form-field>
+
+    <div style="display: flex; gap: 12px;">
+      <button mat-raised-button color="primary" (click)="exportToCSV()">Export CSV</button>
+      <button mat-raised-button color="accent" (click)="exportToPDF()">Export PDF</button>
+    </div>
+  </div>
+
 
   <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 

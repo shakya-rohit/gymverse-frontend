@@ -1,20 +1,39 @@
-.title {
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 20px;
+h2 {
+  margin-bottom: 16px;
+}
+
+mat-form-field {
+  width: 300px;
+  display: block;
 }
 
 .plan-form {
   display: flex;
-  gap: 16px;
   flex-wrap: wrap;
-  margin-bottom: 30px;
+  gap: 16px;
+  margin-bottom: 24px;
 
   mat-form-field {
     flex: 1 1 200px;
+    min-width: 200px;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+  }
+
+  .form-actions button {
+    height: 56px;
   }
 }
 
-.plans-table {
+mat-icon-button {
+  margin-right: 8px;
+}
+
+table {
   width: 100%;
+  margin-bottom: 24px;
 }
