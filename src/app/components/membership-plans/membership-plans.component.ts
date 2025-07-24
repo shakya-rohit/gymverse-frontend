@@ -18,6 +18,7 @@ export class MembershipPlansComponent implements AfterViewInit {
   dataSource = new MatTableDataSource<any>([]);
   planForm: FormGroup;
   editingPlanId: string | null = null;
+  isLoading = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -45,9 +46,16 @@ export class MembershipPlansComponent implements AfterViewInit {
   }
 
   loadPlans() {
+    this.isLoading = true;
     this.planService.getAllPlans().subscribe({
-      next: (plans) => this.dataSource.data = plans,
-      error: () => this.showSnackBar('Failed to load plans')
+      next: (data) => {
+        this.dataSource.data = data;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Error loading plans:', err);
+        this.isLoading = false;
+      }
     });
   }
 

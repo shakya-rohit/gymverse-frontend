@@ -1,7 +1,12 @@
 <div class="content-wrapper">
+  <!-- Overlay Spinner -->
+  <div class="overlay-spinner" *ngIf="isLoading">
+    <mat-spinner diameter="40" strokeWidth="4" color="primary"></mat-spinner>
+  </div>
+
   <div style="display: flex; align-items: center; gap: 8px;">
     <h2 style="margin: 0;">Membership Plans</h2>
-    <button mat-icon-button (click)="loadPlans()">
+    <button mat-icon-button (click)="loadPlans()" [disabled]="isLoading">
       <mat-icon>refresh</mat-icon>
     </button>
   </div>
