@@ -37,10 +37,14 @@ import { FooterComponent } from './components/footer/footer.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MemberProfileDialogComponent } from './components/member-profile-dialog/member-profile-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { TrainerProfileDialogComponent } from './components/trainer-profile-dialog/trainer-profile-dialog.component';
-
+import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { LoginComponent } from './components/login/login.component';
+import { DefaultLayoutComponent } from './layouts/default-layout/default-layout.component';
+import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
+import { RegisterComponent } from './components/register/register.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +58,11 @@ import { TrainerProfileDialogComponent } from './components/trainer-profile-dial
     FooterComponent,
     MemberProfileDialogComponent,
     ConfirmDialogComponent,
-    TrainerProfileDialogComponent
+    TrainerProfileDialogComponent,
+    LoginComponent,
+    DefaultLayoutComponent,
+    AuthLayoutComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -88,7 +96,9 @@ import { TrainerProfileDialogComponent } from './components/trainer-profile-dial
     MatSnackBarModule,
     MatDialogModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
