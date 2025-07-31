@@ -25,6 +25,7 @@ export class LoginComponent {
       .subscribe({
         next: (res) => {
           this.authService.saveToken(res.token);
+          this.authService.saveTenantId(res.tenantId);
           this.router.navigate(['/dashboard']);
         },
         error: () => {

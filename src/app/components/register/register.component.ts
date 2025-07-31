@@ -14,6 +14,7 @@ export class RegisterComponent {
   password = '';
   error: string = '';
   role: string = '';
+  gymName: string = '';
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -28,7 +29,8 @@ export class RegisterComponent {
       email: this.email,
       username: this.username,
       password: this.password,
-      role: this.role
+      role: this.role,
+      gymName: this.gymName
     };
 
     this.authService.register(user).subscribe({

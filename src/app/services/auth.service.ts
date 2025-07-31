@@ -12,10 +12,10 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) { }
 
   login(credentials: { username: string; password: string }) {
-    return this.http.post<{ token: string }>(`${this.apiUrl}/login`, credentials);
+    return this.http.post<{ token: string, tenantId: string }>(`${this.apiUrl}/login`, credentials);
   }
 
-  register(user: { name: string; email: string; username: string; password: string, role: string }) {
+  register(user: { name: string; email: string; username: string; password: string, role: string, gymName: string }) {
     return this.http.post(`${this.apiUrl}/register`, user);
   }
 
@@ -23,8 +23,16 @@ export class AuthService {
     localStorage.setItem('jwtToken', token);
   }
 
+  saveTenantId(tenantId: string) {
+    localStorage.setItem('tenantId', tenantId);
+  }
+
   getToken(): string | null {
     return localStorage.getItem('jwtToken');
+  }
+
+  getTenantId(): string | null {
+    return localStorage.getItem('tenantId');
   }
 
   logout() {

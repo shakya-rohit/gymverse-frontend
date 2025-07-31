@@ -28,6 +28,11 @@
         <input matInput name="role" [(ngModel)]="role" required />
       </mat-form-field>
 
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Gym Name</mat-label>
+        <input matInput name="gymName" [(ngModel)]="gymName" required />
+      </mat-form-field>
+
       <button mat-raised-button color="primary" class="full-width" type="submit" [disabled]="!registerForm.valid">
         Register
       </button>
