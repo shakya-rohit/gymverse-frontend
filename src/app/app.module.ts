@@ -45,6 +45,8 @@ import { LoginComponent } from './components/login/login.component';
 import { DefaultLayoutComponent } from './layouts/default-layout/default-layout.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { RegisterComponent } from './components/register/register.component';
+import { MemberDialogComponent } from './components/member-dialog/member-dialog.component';
+import { TrainerDialogComponent } from './components/trainer-dialog/trainer-dialog.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +64,9 @@ import { RegisterComponent } from './components/register/register.component';
     LoginComponent,
     DefaultLayoutComponent,
     AuthLayoutComponent,
-    RegisterComponent
+    RegisterComponent,
+    MemberDialogComponent,
+    TrainerDialogComponent
   ],
   imports: [
     BrowserModule,

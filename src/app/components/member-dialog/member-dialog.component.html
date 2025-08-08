@@ -1,0 +1,52 @@
+<!-- Title row with close button -->
+<div style="display: flex; justify-content: space-between; align-items: center;">
+  <h2 mat-dialog-title style="margin: 0;">
+    {{ data ? 'Edit Member' : 'Add Member' }}
+  </h2>
+  <button mat-icon-button (click)="onClose()" aria-label="Close">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-dialog-content>
+  <form [formGroup]="memberForm" style="display: flex; flex-wrap: wrap; gap: 16px;">
+    
+    <mat-form-field appearance="outline" style="flex: 1 1 45%;">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" style="flex: 1 1 45%;">
+      <mat-label>Age</mat-label>
+      <input matInput type="number" formControlName="age" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" style="flex: 1 1 45%;">
+      <mat-label>Membership</mat-label>
+      <input matInput formControlName="membership" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" style="flex: 1 1 45%;">
+      <mat-label>Status</mat-label>
+      <input matInput formControlName="status" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" style="flex: 1 1 45%;">
+      <mat-label>Membership Plan</mat-label>
+      <mat-select formControlName="membershipPlanId" required>
+        <mat-option *ngFor="let plan of plans" [value]="plan.planId">
+          {{ plan.name }} ({{ plan.durationInMonths }} months)
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </form>
+</mat-dialog-content>
+
+<!-- Actions row -->
+<mat-dialog-actions style="display: flex; justify-content: space-between; align-items: center;">
+  <button mat-button (click)="onClose()" [disabled]="isSaving">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSave()" [disabled]="memberForm.invalid || isSaving">
+    {{ isSaving ? 'Saving...' : (data ? 'Update' : 'Save') }}
+  </button>
+</mat-dialog-actions>

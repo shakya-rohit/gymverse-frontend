@@ -13,6 +13,7 @@ import { TrainerService } from 'src/app/services/trainer.service';
 import { ConfirmDialogComponent } from 'src/app/confirm-dialog/confirm-dialog.component';
 import { Trainer } from 'src/app/models/trainer.model';
 import { TrainerProfileDialogComponent } from '../trainer-profile-dialog/trainer-profile-dialog.component';
+import { TrainerDialogComponent } from '../trainer-dialog/trainer-dialog.component';
 
 @Component({
   selector: 'app-trainers',
@@ -44,12 +45,12 @@ export class TrainersComponent implements AfterViewInit {
     });
   }
 
-viewTrainer(trainer: any) {
-  this.dialog.open(TrainerProfileDialogComponent, {
-    data: trainer,
-    width: '400px'
-  });
-}
+  viewTrainer(trainer: any) {
+    this.dialog.open(TrainerProfileDialogComponent, {
+      data: trainer,
+      width: '400px'
+    });
+  }
 
   ngOnInit(): void {
     this.loadTrainers();
@@ -111,16 +112,16 @@ viewTrainer(trainer: any) {
     }
   }
 
-  editTrainer(trainer: Trainer): void {
-    this.editingTrainerId = trainer.trainerId || null;
-    this.editingIndex = this.dataSource.data.indexOf(trainer);
-    this.trainerForm.setValue({
-      name: trainer.name,
-      specialty: trainer.specialty,
-      phone: trainer.phone,
-      email: trainer.email
-    });
-  }
+  // editTrainer(trainer: Trainer): void {
+  //   this.editingTrainerId = trainer.trainerId || null;
+  //   this.editingIndex = this.dataSource.data.indexOf(trainer);
+  //   this.trainerForm.setValue({
+  //     name: trainer.name,
+  //     specialty: trainer.specialty,
+  //     phone: trainer.phone,
+  //     email: trainer.email
+  //   });
+  // }
 
   deleteTrainer(trainer: Trainer): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
@@ -204,4 +205,33 @@ viewTrainer(trainer: any) {
 
     doc.save('trainers.pdf');
   }
+
+  openAddTrainerDialog() {
+    const dialogRef = this.dialog.open(TrainerDialogComponent, {
+      width: '60%',
+      data: null,
+      autoFocus: false
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadTrainers();
+      }
+    });
+  }
+
+  editTrainer(trainer: Trainer) {
+    const dialogRef = this.dialog.open(TrainerDialogComponent, {
+      width: '60%',
+      data: trainer,
+      autoFocus: false
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadTrainers();
+      }
+    });
+  }
+
 }

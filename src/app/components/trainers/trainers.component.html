@@ -4,41 +4,18 @@
     <mat-spinner diameter="40" strokeWidth="4" color="primary"></mat-spinner>
   </div>
 
-  <!-- Title + Refresh -->
-  <div style="display: flex; align-items: center; gap: 8px;">
-    <h2 style="margin: 0;">Trainers</h2>
-    <button mat-icon-button (click)="loadTrainers()" [disabled]="isLoading">
-      <mat-icon>refresh</mat-icon>
+  <!-- Header row -->
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <h2 style="margin: 0;">Trainers</h2>
+      <button mat-icon-button (click)="loadTrainers()" [disabled]="isLoading">
+        <mat-icon>refresh</mat-icon>
+      </button>
+    </div>
+    <button mat-raised-button color="primary" (click)="openAddTrainerDialog()">
+      <mat-icon>add</mat-icon> Add Trainer
     </button>
   </div>
-
-  <!-- Trainer Form -->
-  <form [formGroup]="trainerForm" (ngSubmit)="onSubmit()" class="trainer-form">
-    <mat-form-field appearance="outline">
-      <mat-label>Name</mat-label>
-      <input matInput formControlName="name">
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>Specialty</mat-label>
-      <input matInput formControlName="specialty">
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>Phone</mat-label>
-      <input matInput formControlName="phone">
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>Email</mat-label>
-      <input matInput formControlName="email">
-    </mat-form-field>
-
-    <button mat-raised-button color="primary" type="submit">
-      {{ editingTrainerId ? 'Update Trainer' : 'Add Trainer' }}
-    </button>
-    <button mat-button type="button" (click)="cancelEdit()" *ngIf="editingTrainerId">Cancel</button>
-  </form>
 
   <!-- Search + Export -->
   <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">

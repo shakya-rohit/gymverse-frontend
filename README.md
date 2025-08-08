@@ -13,15 +13,31 @@
 
 ---
 
+## 🏗️ AWS Architecture
+
+🌐 Angular App (S3 + CloudFront) ↓  
+⚙️ Spring Boot Backend (AWS EC2) ↓  
+🗄️ DynamoDB (NoSQL Database)
+
+---
+
 ## 📸 UI Screenshots
 
-| Dashboard (Monthly) | Dashboard (Quarterly) |
+| Login | Sign Up |
+|----------|---------|
+| ![Dashboard](screenshots/login.png) | ![Members](screenshots/signup.png) |
+
+| Dashboard (Monthly View) | Dashboard (Quarterly View) |
 |----------|---------|
 | ![Dashboard](screenshots/dashboard1.png) | ![Members](screenshots/dashboard2.png) |
 
-| Members | Trainers |
+| Members | Members (Add/Edit) |
 |----------|---------|
-| ![Dashboard](screenshots/members.png) | ![Members](screenshots/trainers.png) |
+| ![Dashboard](screenshots/members.png) | ![Members](screenshots/members_add_edit.png) |
+
+| Trainers | Trainers (Add/Edit) |
+|----------|---------|
+| ![Dashboard](screenshots/trainers.png) | ![Members](screenshots/trainers_add_edit.png) |
 
 | Membership Plans |
 |------------------|
@@ -34,13 +50,14 @@
 - 👤 **Member Management**: Add, edit, view, delete members
 - 🧑‍🏫 **Trainer Management**: Manage trainer details with profile popup
 - 💳 **Membership Plans**: Add, edit, delete plans with pricing & features
-- 📄 **Data Export**: Export data as **CSV** or **PDF**
+- 📄 **Data Export**: Export as **CSV** or **PDF**
 - 🔍 **Smart Table**: Search, sort, pagination (Angular Material)
 - 📆 **Auto-expiry Warnings**: Highlight memberships nearing expiry
-- 👁️ **Dialog Popups**: View member/trainer profile in dialog
+- 👁️ **Dialog Popups**: Member/trainer profile in dialog
 - 🔄 **Loading Indicators**: Overlay spinners for async ops
-- ☁️ **AWS Integrated**: Static frontend on S3, EC2 for backend
-- 📊 **Dashboard-ready**: Easily extendable with charts and analytics
+- ☁️ **AWS Integrated**: Static frontend on S3, backend on EC2
+- 🏢 **Multi-tenant Ready**: Backend supports multiple gyms from a single deployment
+- 📊 **Dashboard-ready**: Extendable with charts & analytics
 
 ---
 

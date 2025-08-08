@@ -14,6 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { MemberDialogComponent } from '../member-dialog/member-dialog.component';
 
 
 @Component({
@@ -167,17 +168,17 @@ export class MembersComponent implements AfterViewInit {
   //   });
   // }
 
-  editMember(member: any) {
-    this.editingMemberId = member.memberId; // capture actual ID
-    this.editingIndex = this.dataSource.data.indexOf(member);
-    this.memberForm.setValue({
-      name: member.name,
-      age: member.age,
-      membership: member.membership,
-      membershipPlanId: member.membershipPlanId,  // must be set
-      status: member.status,
-    });
-  }
+  // editMember(member: any) {
+  //   this.editingMemberId = member.memberId; // capture actual ID
+  //   this.editingIndex = this.dataSource.data.indexOf(member);
+  //   this.memberForm.setValue({
+  //     name: member.name,
+  //     age: member.age,
+  //     membership: member.membership,
+  //     membershipPlanId: member.membershipPlanId,  // must be set
+  //     status: member.status,
+  //   });
+  // }
 
   // deleteMember(member: any) {
   //   const updated = [...this.dataSource.data].filter(m => m !== member);
@@ -344,6 +345,34 @@ export class MembersComponent implements AfterViewInit {
     });
 
     doc.save('members.pdf');
+  }
+
+  openAddMemberDialog() {
+    const dialogRef = this.dialog.open(MemberDialogComponent, {
+      width: '60%',
+      data: null,
+      autoFocus: false // prevents focus on close button
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadMembers();
+      }
+    });
+  }
+
+  editMember(member: any) {
+    const dialogRef = this.dialog.open(MemberDialogComponent, {
+      width: '60%',
+      data: member,
+      autoFocus: false // prevents focus on close button
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadMembers();
+      }
+    });
   }
 
 

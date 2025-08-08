@@ -1,0 +1,41 @@
+<div style="display: flex; justify-content: space-between; align-items: center;">
+  <h2 mat-dialog-title style="margin: 0;">
+    {{ data ? 'Edit Trainer' : 'Add Trainer' }}
+  </h2>
+  <button mat-icon-button (click)="onClose()" aria-label="Close">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-dialog-content>
+  <form [formGroup]="trainerForm" style="display: flex; flex-wrap: wrap; gap: 16px;">
+
+    <mat-form-field appearance="outline" style="flex: 1 1 45%;">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" cdkFocusInitial />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" style="flex: 1 1 45%;">
+      <mat-label>Specialty</mat-label>
+      <input matInput formControlName="specialty" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" style="flex: 1 1 45%;">
+      <mat-label>Phone</mat-label>
+      <input matInput formControlName="phone" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" style="flex: 1 1 45%;">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" />
+    </mat-form-field>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions style="display: flex; justify-content: space-between; align-items: center;">
+  <button mat-button (click)="onClose()" [disabled]="isSaving">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSave()" [disabled]="trainerForm.invalid || isSaving">
+    {{ isSaving ? 'Saving...' : (data ? 'Update' : 'Save') }}
+  </button>
+</mat-dialog-actions>
